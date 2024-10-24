@@ -1,0 +1,35 @@
+# Ignore arquivos e pastas padrão do Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+*.dist/
+build/
+*.egg
+*.egg-info/
+*.whl
+
+# Ignorar ambientes virtuais
+.venv/
+venv/
+ENV/
+env.bak/
+.env
+
+# Ignorar arquivos de configuração do IDE
+.vscode/
+.idea/
+*.swp
+
+# Ignorar arquivos temporários do sistema
+.DS_Store
+Thumbs.db
+
+# Ignore arquivos de log
+*.log
+
+# Ignore executáveis gerados
+*.exe
+*.exe.msi
+*.spec
