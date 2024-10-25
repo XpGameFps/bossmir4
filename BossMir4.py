@@ -1,4 +1,4 @@
-import tkinter as tk 
+import tkinter as tk
 import threading
 import ctypes  # Para esconder o terminal
 import keyboard  # Para detectar as teclas pressionadas
@@ -107,6 +107,11 @@ def stop_script():
     else:
         log_message("O script já está parado.")
 
+def close_app():
+    """Fecha o aplicativo e para o bot."""
+    stop_script()  # Para o bot se estiver em execução
+    root.destroy()  # Fecha a janela
+
 def log_message(message):
     """Adiciona uma mensagem à área de texto de depuração.""" 
     debug_text.insert(tk.END, message + '\n') 
@@ -115,6 +120,17 @@ def log_message(message):
 def on_selection_change(*args):
     selected_window = window_var.get()
     log_message(f"Selecionada a janela: {selected_window}")
+
+def monitor_keys():
+    while True:
+        if keyboard.is_pressed('up'):  # Iniciar com tecla para cima
+            start_script()
+        elif keyboard.is_pressed('down'):  # Parar com tecla para baixo
+            stop_script()
+        elif keyboard.is_pressed('alt') and keyboard.is_pressed('caps lock'):  # Fecha o aplicativo com Alt + Caps Lock
+            close_app()
+            break
+        time.sleep(0.1)  # Pequeno delay para evitar uso excessivo da CPU
 
 # Esconder a janela do terminal
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
@@ -149,6 +165,9 @@ stop_button.pack(side=tk.LEFT, padx=5)
 # Área de texto para depuração
 debug_text = tk.Text(root, height=10, width=50)
 debug_text.pack(pady=10)
+
+# Inicia o monitoramento das teclas em um thread separado
+threading.Thread(target=monitor_keys, daemon=True).start()
 
 # Iniciar o loop da interface
 root.mainloop()
