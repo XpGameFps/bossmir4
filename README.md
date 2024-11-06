@@ -1,56 +1,39 @@
 # Nota de Atualização - Projeto Mir4Bot
-**Data:** [27/10/2024]
+**Data:** [06/11/2024]
 
-## Resumo das Alterações
-Esta atualização marca uma migração significativa do código do projeto Mir4Bot de Python para C#. As mudanças incluem a reestruturação da lógica do bot e a implementação de uma interface gráfica com o Windows Forms, proporcionando uma experiência de usuário mais amigável e interativa.
+## Interações Aleatórias e Variáveis
 
-## Alterações Principais
+- **Movimento Aleatório**  
+  > Implementação de movimentos aleatórios com as teclas "W", "A", "S" e "D" antes de algumas ações, simulando a movimentação humana. Utiliza a nova função `SimularMovimentoAleatorio`.
 
-### Migração de Linguagem
-- O projeto foi reescrito de Python para C#, garantindo melhor integração com a plataforma Windows e melhor performance em execução.
+- **Espera Aleatória**  
+  > Introduz um intervalo de espera aleatório entre 20 a 30 segundos antes de algumas ações, variando o tempo entre elas para um comportamento menos previsível (função `EsperaAleatoria`).
 
-### Estrutura do Código
-- **Program.cs:** Implementação da inicialização do aplicativo utilizando Windows Forms.
-    ```csharp
-    using System;
-    using System.Windows.Forms;
+- **Coordenadas Aleatórias**  
+  > Coordenadas dos pontos de ataque e teletransporte agora têm offsets aleatórios para simular cliques mais naturais. Funções `GetRandomizedCoordinateForBoss` e `GetRandomizedCoordinateForTeleport` adicionam variação nas posições.
 
-    namespace Mir4Bot
-    {
-        static class Program
-        {
-            [STAThread]
-            static void Main()
-            {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new MainForm());
-            }
-        }
-    }
-    ```
+## Interação com Teclado
 
-- **MainForm.Designer.cs:** Definição dos componentes da interface gráfica, incluindo botões para iniciar e parar o script, uma caixa de texto para logs e um combo box para seleção da janela do jogo.
-    ```csharp
-    private void InitializeComponent()
-    {
-        // Código gerado para a interface do usuário
-    }
-    ```
+- **Pressionar Teclas Específicas**  
+  > A função `PressionarTecla` foi criada para simular o pressionamento de teclas, com a opção de mantê-las pressionadas e variação nos tempos de pressão e liberação.
 
-- **MainForm.cs:** Implementação da lógica do bot, que agora inclui:
-    - Controle do fluxo de execução do script através de botões.
-    - Log de atividades em uma caixa de texto.
-    - Seleção dinâmica da janela do jogo através de um combo box.
-    - Manipulação de eventos do mouse e envio de teclas para o jogo.
+- **Simulação de Clique de Teclas**  
+  > Outra função, `ClicarTecla`, é dedicada ao ato de pressionar e soltar teclas.
 
-## Funcionalidades Implementadas
-- Adição de coordenadas de bosses e teleportação com escalonamento de coordenadas para diferentes resoluções de tela.
-- Implementação de um loop de bot que gerencia o combate de forma automática, incluindo comandos de teclado e cliques do mouse.
+## Manejo de Janela Ativa
 
-## Melhorias na Usabilidade
-- Interface mais intuitiva para interação com o usuário.
-- Mensagens de log para facilitar o acompanhamento da execução do script.
+- **Identificação de Janela**  
+  > Mudança na forma como a janela do jogo é identificada, agora utilizando `Equals` ao invés de `Contains`, para garantir uma correspondência exata com o título da janela.
 
-## Considerações Finais
-Com essa atualização, esperamos que a automação do jogo MIR4 se torne mais eficaz e fácil de usar. A migração para C# não só melhora a performance do bot, mas também abre portas para futuras melhorias e funcionalidades.
+## Log Mais Detalhado
+
+- **Adição de Logs**  
+  > Adição de logs mais detalhados em várias etapas do script para rastrear ações como cliques, movimentos e teclas pressionadas, incluindo timestamps no formato `dd/MM/yyyy HH:mm:ss` para melhor acompanhamento.
+
+## Outras Melhorias Menores
+
+- **Ajustes de Delay**  
+  > Inclusão de pequenos atrasos adicionais para tornar as interações mais naturais.
+
+- **Novo Mecanismo de Teclas**  
+  > Introdução de `keybd_event` para simular o pressionamento de teclas de forma mais avançada e diferenciada de `SendKeys`, proporcionando maior controle.
