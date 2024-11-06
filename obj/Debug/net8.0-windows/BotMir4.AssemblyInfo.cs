@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BotMir4")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9a55247a8cb60b5076832ec2dcc4b332699965b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9d14dc3ff127e9afab1081f80c542668e31355d0")]
 [assembly: System.Reflection.AssemblyProductAttribute("BotMir4")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BotMir4")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

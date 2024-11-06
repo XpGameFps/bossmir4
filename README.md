@@ -1,5 +1,5 @@
 # Nota de Atualização - Projeto Mir4Bot
-**Data:** [27/10/2024]
+**Data:** [Insira a data da atualização]
 
 ## Resumo das Alterações
 Esta atualização marca uma migração significativa do código do projeto Mir4Bot de Python para C#. As mudanças incluem a reestruturação da lógica do bot e a implementação de uma interface gráfica com o Windows Forms, proporcionando uma experiência de usuário mais amigável e interativa.

@@ -10,18 +10,27 @@ namespace Mir4Bot
     public partial class MainForm : Form
     {
         private CancellationTokenSource cancellationTokenSource;
-        private string selectedWindow = "Mir4G[1]";
+        private string selectedWindow;
         private readonly (int x, int y)[] bossCoordinates = new (int x, int y)[]
         {
             (1579, 498), (1597, 574), (1606, 650), (1603, 726), (1617, 785)
         };
         private readonly (int x, int y) teleportCoordinate = (1548, 971);
+        private Random random = new Random();
+        private bool isBPressed = false;
 
         [DllImport("user32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
 
         [DllImport("user32.dll")]
         private static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, UIntPtr dwExtraInfo);
+
+        [DllImport("user32.dll")]
+        private static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
+
+        private const int KEYEVENTF_KEYUP = 0x0002;
+        private const int MOUSEEVENTF_LEFTDOWN = 0x0002;
+        private const int MOUSEEVENTF_LEFTUP = 0x0004;
 
         public MainForm()
         {
@@ -35,6 +44,13 @@ namespace Mir4Bot
             windowComboBox.Items.Add("Mir4G[1]");
             windowComboBox.Items.Add("Mir4G[2]");
             windowComboBox.SelectedIndex = 0;
+            selectedWindow = windowComboBox.SelectedItem.ToString();
+        }
+
+        private void windowComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedWindow = windowComboBox.SelectedItem.ToString();
+            Log($"Janela selecionada: {selectedWindow}");
         }
 
         private void startButton_Click(object sender, EventArgs e)
@@ -65,52 +81,137 @@ namespace Mir4Bot
                 return;
             }
 
+            await Task.Delay(100); // 100ms de espera
+
+            if (!isBPressed)
+            {
+                PressionarTecla("B");
+                Log("Tecla 'B' pressionada para iniciar o combate.");
+                isBPressed = true;
+            }
+
             int bossIndex = 0;
-            SendKeys.SendWait("b");
-            Log("Tecla 'B' pressionada para iniciar o combate.");
 
             while (!token.IsCancellationRequested)
             {
-                await Task.Delay(30000); // Aguardar 30 segundos
+                await EsperaAleatoria(20000, 30000); // Espera aleatória entre 20 e 30 segundos
 
                 if (token.IsCancellationRequested) break;
 
-                SendKeys.SendWait("{F10}");
-                Log("Tecla 'F10' pressionada para abrir a interface de combate.");
-                await Task.Delay(2000); // Aguardar a interface abrir
+                SimularMovimentoAleatorio(); // Movimentos aleatórios antes de apertar F10
+                await Task.Delay(2000); // Pequena pausa após o movimento
 
-                // Chamada para escalar as coordenadas antes de mover o mouse
-                var bossCoordinate = ScaleCoordinates(bossCoordinates[bossIndex].x, bossCoordinates[bossIndex].y);
+                ClicarTecla("F10");
+                Log("Tecla 'F10' clicada para abrir a interface de combate.");
+
+                // Coordenada aleatória para o boss
+                var bossCoordinate = GetRandomizedCoordinateForBoss(bossCoordinates[bossIndex].x, bossCoordinates[bossIndex].y);
                 MoveMouse(bossCoordinate.x, bossCoordinate.y);
-                ClickMouse();
-                Log($"Clicou no Boss {bossIndex + 1} na coordenada ({bossCoordinate.x}, {bossCoordinate.y}).");
+                await Task.Delay(500); // Aguarda 500ms antes de clicar
+                ClickMouse(); // Clique com o botão esquerdo do mouse
+                Log($"Clicou no Boss {bossIndex + 1} na coordenada aleatória ({bossCoordinate.x}, {bossCoordinate.y}).");
 
                 if (token.IsCancellationRequested) break;
 
-                await Task.Delay(5000); // Aguardar um tempo após o clique
+                await Task.Delay(5000); // Espera após clicar no boss
 
-                // Escalando a coordenada de teleport
-                var teleportCoord = ScaleCoordinates(teleportCoordinate.x, teleportCoordinate.y);
-                MoveMouse(teleportCoord.x, teleportCoord.y);
-                ClickMouse();
+                // Atraso aleatório entre 3 a 5 segundos antes de clicar na coordenada de teletransporte
+                await EsperaAleatoria(3000, 5000);
+
+                // Coordenada aleatória para o teletransporte
+                var teleportCoord = GetRandomizedCoordinateForTeleport(teleportCoordinate.x, teleportCoordinate.y);
+                MoveMouse(teleportCoord.x, teleportCoord.y); // Movendo o mouse para as coordenadas de teletransporte aleatórias
+                await Task.Delay(500); // Aguarda 500ms antes de clicar
+                ClickMouse(); // Clique com o botão esquerdo do mouse
                 Log("Clicou na coordenada de teleport.");
 
                 if (token.IsCancellationRequested) break;
 
-                await Task.Delay(5000); // Aguardar 5 segundos após o teleport
+                await Task.Delay(5000); // Espera após teleportar
 
-                SendKeys.SendWait("b");
-                Log("Tecla 'B' pressionada após teleportar.");
-
-                bossIndex = (bossIndex + 1) % bossCoordinates.Length; // Passa para o próximo boss
+                PressionarTecla("B"); // Pressionar a tecla 'B' após o combate
+                bossIndex = (bossIndex + 1) % bossCoordinates.Length;
             }
+        }
+
+        private void SimularMovimentoAleatorio()
+        {
+            string[] teclasMovimento = { "W", "A", "S", "D" };
+            int movimentos = random.Next(1, 4);
+
+            for (int i = 0; i < movimentos; i++)
+            {
+                string tecla = teclasMovimento[random.Next(teclasMovimento.Length)];
+                PressionarTecla(tecla, true);
+                Thread.Sleep(random.Next(500, 1500));
+                keybd_event(GetVirtualKey(tecla), 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+                Log($"Tecla '{tecla.ToUpper()}' solta.");
+            }
+        }
+
+        private void PressionarTecla(string tecla, bool manterPressionada = false)
+        {
+            int esperaAntes = random.Next(80, 200);
+            Thread.Sleep(esperaAntes);
+
+            byte virtualKey = GetVirtualKey(tecla);
+            if (virtualKey != 0)
+            {
+                if (manterPressionada)
+                {
+                    keybd_event(virtualKey, 0, 0, UIntPtr.Zero);
+                    Log($"Tecla '{tecla.ToUpper()}' pressionada.");
+                }
+                else
+                {
+                    keybd_event(virtualKey, 0, 0, UIntPtr.Zero);
+                    Log($"Tecla '{tecla.ToUpper()}' clicada.");
+                    Thread.Sleep(50);
+                    keybd_event(virtualKey, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+                    Log($"Tecla '{tecla.ToUpper()}' solta.");
+                }
+            }
+            else
+            {
+                Log($"Tecla '{tecla}' não reconhecida.");
+            }
+        }
+
+        private void ClicarTecla(string tecla)
+        {
+            byte virtualKey = GetVirtualKey(tecla);
+            if (virtualKey != 0)
+            {
+                keybd_event(virtualKey, 0, 0, UIntPtr.Zero);
+                Log($"Tecla '{tecla.ToUpper()}' clicada.");
+                keybd_event(virtualKey, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+                Log($"Tecla '{tecla.ToUpper()}' solta.");
+            }
+            else
+            {
+                Log($"Tecla '{tecla}' não reconhecida.");
+            }
+        }
+
+        private byte GetVirtualKey(string tecla)
+        {
+            return tecla.ToUpper() switch
+            {
+                "W" => 0x57,
+                "A" => 0x41,
+                "S" => 0x53,
+                "D" => 0x44,
+                "B" => 0x42,
+                "F10" => 0x79,
+                _ => 0,
+            };
         }
 
         private bool BringGameWindowToFront()
         {
             foreach (Process proc in Process.GetProcesses())
             {
-                if (proc.MainWindowTitle.Contains(selectedWindow))
+                if (proc.MainWindowTitle.Equals(selectedWindow))
                 {
                     SetForegroundWindow(proc.MainWindowHandle);
                     Log($"Janela '{selectedWindow}' trazida para frente.");
@@ -123,13 +224,53 @@ namespace Mir4Bot
         private void MoveMouse(int x, int y)
         {
             Cursor.Position = new System.Drawing.Point(x, y);
-            Thread.Sleep(500);
+            Log($"Mouse movido para a coordenada ({x}, {y}).");
         }
 
         private void ClickMouse()
         {
-            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, UIntPtr.Zero);
-            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, UIntPtr.Zero);
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, UIntPtr.Zero); // Pressiona o botão esquerdo do mouse
+            Thread.Sleep(random.Next(100, 150)); // Aguarda um pequeno intervalo
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, UIntPtr.Zero); // Solta o botão esquerdo do mouse
+            Log("Clique do mouse realizado.");
+        }
+
+        private (int x, int y) GetRandomizedCoordinateForBoss(int x, int y)
+        {
+            // Ajusta para a resolução da tela
+            int screenWidth = Screen.PrimaryScreen.Bounds.Width;
+            int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+
+            int offsetX = random.Next(-160, 195); // Para bosses
+            int offsetY = random.Next(-18, 18); // Para bosses
+
+            // Ajusta a coordenada baseada na resolução da tela
+            int scaledX = (int)(x + offsetX * (float)screenWidth / 1920);
+            int scaledY = (int)(y + offsetY * (float)screenHeight / 1080);
+
+            return (scaledX, scaledY);
+        }
+
+        private (int x, int y) GetRandomizedCoordinateForTeleport(int x, int y)
+        {
+            // Ajusta para a resolução da tela
+            int screenWidth = Screen.PrimaryScreen.Bounds.Width;
+            int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+
+            int offsetX = random.Next(-105, 105); // Para teletransporte
+            int offsetY = random.Next(-20, 20); // Para teletransporte
+
+            // Ajusta a coordenada baseada na resolução da tela
+            int scaledX = (int)(x + offsetX * (float)screenWidth / 1920);
+            int scaledY = (int)(y + offsetY * (float)screenHeight / 1080);
+
+            return (scaledX, scaledY);
+        }
+
+        private async Task EsperaAleatoria(int min, int max)
+        {
+            int delay = random.Next(min, max);
+            await Task.Delay(delay);
         }
 
         private void Log(string message)
@@ -140,54 +281,15 @@ namespace Mir4Bot
             }
             else
             {
-                logTextBox.AppendText($"{DateTime.Now}: {message}{Environment.NewLine}");
+                logTextBox.AppendText($"{DateTime.Now:dd/MM/yyyy HH:mm:ss}: {message}{Environment.NewLine}");
+                logTextBox.SelectionStart = logTextBox.Text.Length; // Rola para o final
                 logTextBox.ScrollToCaret();
             }
         }
 
-        // Função para escalar as coordenadas
-        private (int x, int y) ScaleCoordinates(int originalX, int originalY)
-        {
-            // Obtendo o monitor ativo
-            var screen = GetActiveScreen();
-            float scaleX = (float)screen.Bounds.Width / 1920f;
-            float scaleY = (float)screen.Bounds.Height / 1080f;
-
-            int scaledX = (int)(originalX * scaleX);
-            int scaledY = (int)(originalY * scaleY);
-            return (scaledX, scaledY);
-        }
-
-        // Função para obter o monitor ativo
-        private Screen GetActiveScreen()
-        {
-            foreach (Screen screen in Screen.AllScreens)
-            {
-                if (screen.WorkingArea.Contains(Cursor.Position))
-                {
-                    return screen;
-                }
-            }
-            return Screen.PrimaryScreen; // Retorna o monitor principal se não encontrar
-        }
-
-        private const int MOUSEEVENTF_LEFTDOWN = 0x0002;
-        private const int MOUSEEVENTF_LEFTUP = 0x0004;
-
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Finaliza o script suavemente ao fechar o aplicativo
             cancellationTokenSource?.Cancel();
-            if (cancellationTokenSource != null)
-            {
-                cancellationTokenSource.Token.WaitHandle.WaitOne(1000); // Aguarda até 1 segundo para finalizar
-            }
-        }
-
-        private void windowComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            selectedWindow = windowComboBox.SelectedItem.ToString();
-            Log($"Tela selecionada: {selectedWindow}");
         }
     }
 }

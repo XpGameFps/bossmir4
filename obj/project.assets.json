@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\BotMir4\\BotMir4\\BotMir4.csproj",
+      "projectUniqueName": "C:\\bossmir4\\BotMir4.csproj",
       "projectName": "BotMir4",
-      "projectPath": "C:\\BotMir4\\BotMir4\\BotMir4.csproj",
+      "projectPath": "C:\\bossmir4\\BotMir4.csproj",
       "packagesPath": "C:\\Users\\edson\\.nuget\\packages\\",
-      "outputPath": "C:\\BotMir4\\BotMir4\\obj\\",
+      "outputPath": "C:\\bossmir4\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\edson\\AppData\\Roaming\\NuGet\\NuGet.Config",
