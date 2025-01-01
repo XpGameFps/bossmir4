@@ -32,3 +32,6 @@ C:\bossmir4\obj\Debug\net8.0-windows\refint\BotMir4.dll
 C:\bossmir4\obj\Debug\net8.0-windows\BotMir4.pdb
 C:\bossmir4\obj\Debug\net8.0-windows\BotMir4.genruntimeconfig.cache
 C:\bossmir4\obj\Debug\net8.0-windows\ref\BotMir4.dll
+C:\bossmir4\bin\Debug\net8.0-windows\WindowsInput.dll
+C:\bossmir4\obj\Debug\net8.0-windows\BotMir4.csproj.AssemblyReference.cache
+C:\bossmir4\obj\Debug\net8.0-windows\BotMir4.csproj.Up2Date

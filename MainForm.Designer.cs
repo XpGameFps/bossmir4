@@ -15,64 +15,70 @@
 
         private void InitializeComponent()
         {
-            this.startButton = new System.Windows.Forms.Button();
-            this.stopButton = new System.Windows.Forms.Button();
-            this.logTextBox = new System.Windows.Forms.TextBox();
-            this.windowComboBox = new System.Windows.Forms.ComboBox();
-            this.SuspendLayout();
+            startButton = new Button();
+            stopButton = new Button();
+            logTextBox = new TextBox();
+            windowComboBox = new ComboBox();
+            SuspendLayout();
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(12, 12);
-            this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(75, 23);
-            this.startButton.TabIndex = 0;
-            this.startButton.Text = "Iniciar";
-            this.startButton.UseVisualStyleBackColor = true;
-            this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            startButton.Location = new Point(14, 14);
+            startButton.Margin = new Padding(4, 3, 4, 3);
+            startButton.Name = "startButton";
+            startButton.Size = new Size(88, 27);
+            startButton.TabIndex = 0;
+            startButton.Text = "Iniciar";
+            startButton.UseVisualStyleBackColor = true;
+            startButton.Click += startButton_Click;
             // 
             // stopButton
             // 
-            this.stopButton.Location = new System.Drawing.Point(93, 12);
-            this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(75, 23);
-            this.stopButton.TabIndex = 1;
-            this.stopButton.Text = "Parar";
-            this.stopButton.UseVisualStyleBackColor = true;
-            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            stopButton.Location = new Point(14, 47);
+            stopButton.Margin = new Padding(4, 3, 4, 3);
+            stopButton.Name = "stopButton";
+            stopButton.Size = new Size(88, 27);
+            stopButton.TabIndex = 1;
+            stopButton.Text = "Parar";
+            stopButton.UseVisualStyleBackColor = true;
+            stopButton.Click += stopButton_Click;
             // 
             // logTextBox
             // 
-            this.logTextBox.Location = new System.Drawing.Point(12, 41);
-            this.logTextBox.Multiline = true;
-            this.logTextBox.Name = "logTextBox";
-            this.logTextBox.ReadOnly = true;
-            this.logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logTextBox.Size = new System.Drawing.Size(260, 208);
-            this.logTextBox.TabIndex = 2;
+            logTextBox.Location = new Point(14, 122);
+            logTextBox.Margin = new Padding(4, 3, 4, 3);
+            logTextBox.Multiline = true;
+            logTextBox.Name = "logTextBox";
+            logTextBox.ReadOnly = true;
+            logTextBox.ScrollBars = ScrollBars.Vertical;
+            logTextBox.Size = new Size(468, 239);
+            logTextBox.TabIndex = 2;
             // 
             // windowComboBox
             // 
-            this.windowComboBox.FormattingEnabled = true;
-            this.windowComboBox.Location = new System.Drawing.Point(174, 14);
-            this.windowComboBox.Name = "windowComboBox";
-            this.windowComboBox.Size = new System.Drawing.Size(98, 21);
-            this.windowComboBox.TabIndex = 3;
-            this.windowComboBox.SelectedIndexChanged += new System.EventHandler(this.windowComboBox_SelectedIndexChanged);
+            windowComboBox.FormattingEnabled = true;
+            windowComboBox.Location = new Point(110, 34);
+            windowComboBox.Margin = new Padding(4, 3, 4, 3);
+            windowComboBox.Name = "windowComboBox";
+            windowComboBox.Size = new Size(114, 23);
+            windowComboBox.TabIndex = 3;
+            windowComboBox.SelectedIndexChanged += windowComboBox_SelectedIndexChanged;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.windowComboBox);
-            this.Controls.Add(this.logTextBox);
-            this.Controls.Add(this.stopButton);
-            this.Controls.Add(this.startButton);
-            this.Name = "MainForm";
-            this.Text = "Mir4 Bot";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(495, 375);
+            Controls.Add(windowComboBox);
+            Controls.Add(logTextBox);
+            Controls.Add(stopButton);
+            Controls.Add(startButton);
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Mir4 Bot";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         private System.Windows.Forms.Button startButton;

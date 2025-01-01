@@ -1,11 +1,41 @@
 {
   "version": 3,
   "targets": {
-    "net8.0-windows7.0": {}
+    "net8.0-windows7.0": {
+      "InputSimulator/1.0.4": {
+        "type": "package",
+        "compile": {
+          "lib/net20/WindowsInput.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net20/WindowsInput.dll": {
+            "related": ".xml"
+          }
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "InputSimulator/1.0.4": {
+      "sha512": "D0LvRCPQMX6/FJHBjng+RO+wRDuHTJrfo7IAc7rmkPvRqchdVGJWg3y70peOtDy3OLNK+HSOwVkH4GiuLnkKgA==",
+      "type": "package",
+      "path": "inputsimulator/1.0.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "inputsimulator.1.0.4.nupkg.sha512",
+        "inputsimulator.nuspec",
+        "lib/net20/WindowsInput.dll",
+        "lib/net20/WindowsInput.xml"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "net8.0-windows7.0": []
+    "net8.0-windows7.0": [
+      "InputSimulator >= 1.0.4"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\edson\\.nuget\\packages\\": {}
@@ -50,6 +80,12 @@
     "frameworks": {
       "net8.0-windows7.0": {
         "targetAlias": "net8.0-windows",
+        "dependencies": {
+          "InputSimulator": {
+            "target": "Package",
+            "version": "[1.0.4, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
@@ -72,5 +108,17 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "O pacote 'InputSimulator 1.0.4' foi restaurado usando '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' em vez da estrutura de destino do projeto 'net8.0-windows7.0'. Esse pacote pode não ser totalmente compatível com o seu projeto.",
+      "libraryId": "InputSimulator",
+      "targetGraphs": [
+        "net8.0-windows7.0"
+      ]
+    }
+  ]
 }

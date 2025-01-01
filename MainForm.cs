@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Windows.Forms;
 using System.Threading;
 using System.Diagnostics;
@@ -63,7 +63,7 @@ namespace Mir4Bot
             }
             else
             {
-                Log("O script já está em execução.");
+                Log("O script jï¿½ estï¿½ em execuï¿½ï¿½o.");
             }
         }
 
@@ -77,7 +77,7 @@ namespace Mir4Bot
         {
             if (!BringGameWindowToFront())
             {
-                Log("Janela do jogo não encontrada!");
+                Log("Janela do jogo nï¿½o encontrada!");
                 return;
             }
 
@@ -94,42 +94,42 @@ namespace Mir4Bot
 
             while (!token.IsCancellationRequested)
             {
-                await EsperaAleatoria(20000, 30000); // Espera aleatória entre 20 e 30 segundos
+                await EsperaAleatoria(1000, 3000); // Espera aleatï¿½ria entre 20 e 30 segundos
 
                 if (token.IsCancellationRequested) break;
 
-                SimularMovimentoAleatorio(); // Movimentos aleatórios antes de apertar F10
-                await Task.Delay(2000); // Pequena pausa após o movimento
+                SimularMovimentoAleatorio(); // Movimentos aleatï¿½rios antes de apertar F10
+                await Task.Delay(2000); // Pequena pausa apï¿½s o movimento
 
                 ClicarTecla("F10");
                 Log("Tecla 'F10' clicada para abrir a interface de combate.");
 
-                // Coordenada aleatória para o boss
+                // Coordenada aleatï¿½ria para o boss
                 var bossCoordinate = GetRandomizedCoordinateForBoss(bossCoordinates[bossIndex].x, bossCoordinates[bossIndex].y);
                 MoveMouse(bossCoordinate.x, bossCoordinate.y);
                 await Task.Delay(500); // Aguarda 500ms antes de clicar
-                ClickMouse(); // Clique com o botão esquerdo do mouse
-                Log($"Clicou no Boss {bossIndex + 1} na coordenada aleatória ({bossCoordinate.x}, {bossCoordinate.y}).");
+                ClickMouse(); // Clique com o botï¿½o esquerdo do mouse
+                Log($"Clicou no Boss {bossIndex + 1} na coordenada aleatï¿½ria ({bossCoordinate.x}, {bossCoordinate.y}).");
 
                 if (token.IsCancellationRequested) break;
 
-                await Task.Delay(5000); // Espera após clicar no boss
+                await Task.Delay(5000); // Espera apï¿½s clicar no boss
 
-                // Atraso aleatório entre 3 a 5 segundos antes de clicar na coordenada de teletransporte
+                // Atraso aleatï¿½rio entre 3 a 5 segundos antes de clicar na coordenada de teletransporte
                 await EsperaAleatoria(3000, 5000);
 
-                // Coordenada aleatória para o teletransporte
+                // Coordenada aleatï¿½ria para o teletransporte
                 var teleportCoord = GetRandomizedCoordinateForTeleport(teleportCoordinate.x, teleportCoordinate.y);
-                MoveMouse(teleportCoord.x, teleportCoord.y); // Movendo o mouse para as coordenadas de teletransporte aleatórias
+                MoveMouse(teleportCoord.x, teleportCoord.y); // Movendo o mouse para as coordenadas de teletransporte aleatï¿½rias
                 await Task.Delay(500); // Aguarda 500ms antes de clicar
-                ClickMouse(); // Clique com o botão esquerdo do mouse
+                ClickMouse(); // Clique com o botï¿½o esquerdo do mouse
                 Log("Clicou na coordenada de teleport.");
 
                 if (token.IsCancellationRequested) break;
 
-                await Task.Delay(5000); // Espera após teleportar
+                await Task.Delay(5000); // Espera apï¿½s teleportar
 
-                PressionarTecla("B"); // Pressionar a tecla 'B' após o combate
+                PressionarTecla("B"); // Pressionar a tecla 'B' apï¿½s o combate
                 bossIndex = (bossIndex + 1) % bossCoordinates.Length;
             }
         }
@@ -173,7 +173,7 @@ namespace Mir4Bot
             }
             else
             {
-                Log($"Tecla '{tecla}' não reconhecida.");
+                Log($"Tecla '{tecla}' nï¿½o reconhecida.");
             }
         }
 
@@ -189,7 +189,7 @@ namespace Mir4Bot
             }
             else
             {
-                Log($"Tecla '{tecla}' não reconhecida.");
+                Log($"Tecla '{tecla}' nï¿½o reconhecida.");
             }
         }
 
@@ -229,22 +229,22 @@ namespace Mir4Bot
 
         private void ClickMouse()
         {
-            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, UIntPtr.Zero); // Pressiona o botão esquerdo do mouse
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, UIntPtr.Zero); // Pressiona o botï¿½o esquerdo do mouse
             Thread.Sleep(random.Next(100, 150)); // Aguarda um pequeno intervalo
-            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, UIntPtr.Zero); // Solta o botão esquerdo do mouse
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, UIntPtr.Zero); // Solta o botï¿½o esquerdo do mouse
             Log("Clique do mouse realizado.");
         }
 
         private (int x, int y) GetRandomizedCoordinateForBoss(int x, int y)
         {
-            // Ajusta para a resolução da tela
+            // Ajusta para a resoluï¿½ï¿½o da tela
             int screenWidth = Screen.PrimaryScreen.Bounds.Width;
             int screenHeight = Screen.PrimaryScreen.Bounds.Height;
 
             int offsetX = random.Next(-160, 195); // Para bosses
             int offsetY = random.Next(-18, 18); // Para bosses
 
-            // Ajusta a coordenada baseada na resolução da tela
+            // Ajusta a coordenada baseada na resoluï¿½ï¿½o da tela
             int scaledX = (int)(x + offsetX * (float)screenWidth / 1920);
             int scaledY = (int)(y + offsetY * (float)screenHeight / 1080);
 
@@ -253,14 +253,14 @@ namespace Mir4Bot
 
         private (int x, int y) GetRandomizedCoordinateForTeleport(int x, int y)
         {
-            // Ajusta para a resolução da tela
+            // Ajusta para a resoluï¿½ï¿½o da tela
             int screenWidth = Screen.PrimaryScreen.Bounds.Width;
             int screenHeight = Screen.PrimaryScreen.Bounds.Height;
 
             int offsetX = random.Next(-105, 105); // Para teletransporte
             int offsetY = random.Next(-20, 20); // Para teletransporte
 
-            // Ajusta a coordenada baseada na resolução da tela
+            // Ajusta a coordenada baseada na resoluï¿½ï¿½o da tela
             int scaledX = (int)(x + offsetX * (float)screenWidth / 1920);
             int scaledY = (int)(y + offsetY * (float)screenHeight / 1080);
 
@@ -290,6 +290,11 @@ namespace Mir4Bot
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             cancellationTokenSource?.Cancel();
+        }
+
+        private void mapComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
