@@ -35,3 +35,5 @@ C:\bossmir4\obj\Debug\net8.0-windows\ref\BotMir4.dll
 C:\bossmir4\bin\Debug\net8.0-windows\WindowsInput.dll
 C:\bossmir4\obj\Debug\net8.0-windows\BotMir4.csproj.AssemblyReference.cache
 C:\bossmir4\obj\Debug\net8.0-windows\BotMir4.csproj.Up2Date
+C:\bossmir4\obj\Debug\net8.0-windows\BotMir4.g.resources
+C:\bossmir4\obj\Debug\net8.0-windows\Mir4Bot.SettingsForm.resources

@@ -3,6 +3,12 @@
     partial class MainForm
     {
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Button settingsButton;
+        private System.Windows.Forms.Button startButton;
+        private System.Windows.Forms.Button stopButton;
+        private System.Windows.Forms.TextBox logTextBox;
+        private System.Windows.Forms.ComboBox windowComboBox;
+        private System.Windows.Forms.Button donationButton;
 
         protected override void Dispose(bool disposing)
         {
@@ -15,11 +21,24 @@
 
         private void InitializeComponent()
         {
+            settingsButton = new Button();
             startButton = new Button();
             stopButton = new Button();
             logTextBox = new TextBox();
             windowComboBox = new ComboBox();
+            donationButton = new Button();
             SuspendLayout();
+            // 
+            // settingsButton
+            // 
+            settingsButton.Location = new Point(384, 14);
+            settingsButton.Margin = new Padding(4, 3, 4, 3);
+            settingsButton.Name = "settingsButton";
+            settingsButton.Size = new Size(98, 27);
+            settingsButton.TabIndex = 4;
+            settingsButton.Text = "Configurações";
+            settingsButton.UseVisualStyleBackColor = true;
+            settingsButton.Click += settingsButton_Click;
             // 
             // startButton
             // 
@@ -64,26 +83,46 @@
             windowComboBox.TabIndex = 3;
             windowComboBox.SelectedIndexChanged += windowComboBox_SelectedIndexChanged;
             // 
+            // donationButton
+            // 
+            donationButton.BackColor = Color.Purple;
+            donationButton.ForeColor = Color.White;
+            donationButton.Location = new Point(322, 76);
+            donationButton.Margin = new Padding(4, 3, 4, 3);
+            donationButton.Name = "donationButton";
+            donationButton.Size = new Size(160, 40);
+            donationButton.TabIndex = 5;
+            donationButton.Text = "Doação";
+            donationButton.UseVisualStyleBackColor = false;
+            donationButton.Click += donationButton_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(495, 375);
+            Controls.Add(settingsButton);
             Controls.Add(windowComboBox);
             Controls.Add(logTextBox);
             Controls.Add(stopButton);
             Controls.Add(startButton);
+            Controls.Add(donationButton);
             Margin = new Padding(4, 3, 4, 3);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Mir4 Bot";
+            Load += MainForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
-        private System.Windows.Forms.Button startButton;
-        private System.Windows.Forms.Button stopButton;
-        private System.Windows.Forms.TextBox logTextBox;
-        private System.Windows.Forms.ComboBox windowComboBox;
+        private void donationButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "https://nubank.com.br/cobrar/12h52y/677c3495-7226-4c16-96d5-a8d9ad033952",
+                UseShellExecute = true
+            });
+        }
     }
 }

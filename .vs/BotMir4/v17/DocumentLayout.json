@@ -7,12 +7,24 @@
       "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|C:\\bossmir4\\settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|c:\\bossmir4\\settingsform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:settingsform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|C:\\bossmir4\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|c:\\bossmir4\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|c:\\bossmir4\\settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -36,26 +48,26 @@
               "RelativeDocumentMoniker": "MainForm.cs",
               "ToolTip": "C:\\bossmir4\\MainForm.cs",
               "RelativeToolTip": "MainForm.cs",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAswGAAAAAvAAAAAAAAAA==",
+              "ViewState": "AgIAAEsBAAAAAAAAAAAAAHMBAABKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-06T06:08:27.125Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "MainForm.Designer.cs",
               "DocumentMoniker": "C:\\bossmir4\\MainForm.Designer.cs",
               "RelativeDocumentMoniker": "MainForm.Designer.cs",
               "ToolTip": "C:\\bossmir4\\MainForm.Designer.cs",
               "RelativeToolTip": "MainForm.Designer.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAvwFkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADcAAAAAAAAAAAAkwFAAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-06T06:08:22.439Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "MainForm.cs [Projeto]",
               "DocumentMoniker": "C:\\bossmir4\\MainForm.cs",
               "RelativeDocumentMoniker": "MainForm.cs",
@@ -63,6 +75,44 @@
               "RelativeToolTip": "MainForm.cs [Projeto]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-06T06:08:19.048Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SettingsForm.Designer.cs",
+              "DocumentMoniker": "C:\\bossmir4\\SettingsForm.Designer.cs",
+              "RelativeDocumentMoniker": "SettingsForm.Designer.cs",
+              "ToolTip": "C:\\bossmir4\\SettingsForm.Designer.cs",
+              "RelativeToolTip": "SettingsForm.Designer.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAmwGIAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-04T17:06:55.078Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SettingsForm.cs",
+              "DocumentMoniker": "C:\\bossmir4\\SettingsForm.cs",
+              "RelativeDocumentMoniker": "SettingsForm.cs",
+              "ToolTip": "C:\\bossmir4\\SettingsForm.cs",
+              "RelativeToolTip": "SettingsForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-04T17:06:13.423Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SettingsForm.cs [Projeto]",
+              "DocumentMoniker": "C:\\bossmir4\\SettingsForm.cs",
+              "RelativeDocumentMoniker": "SettingsForm.cs",
+              "ToolTip": "C:\\bossmir4\\SettingsForm.cs [Projeto]",
+              "RelativeToolTip": "SettingsForm.cs [Projeto]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-04T17:06:05.663Z",
+              "EditorCaption": " [Projeto]"
             }
           ]
         }
