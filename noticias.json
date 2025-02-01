@@ -1,12 +1,12 @@
 [
     {
-        "titulo": "Nova atualização do bot",
-        "descricao": "Uma nova versão do bot foi lançada com melhorias de desempenho.",
-        "data": "31/01/2025"
+        "Titulo": "Notícia 1",
+        "Descricao": "Descrição da Notícia 1",
+        "Data": "2023-10-01"
     },
     {
-        "titulo": "Correção de bugs",
-        "descricao": "Foram corrigidos problemas no sistema de teleporte.",
-        "data": "31/01/2025"
+        "Titulo": "Notícia 2",
+        "Descricao": "Descrição da Notícia 2",
+        "Data": "2023-10-02"
     }
 ]
