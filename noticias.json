@@ -1,35 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
-
-public class Noticia
-{
-    public string Titulo { get; set; }
-    public string Link { get; set; }
-}
-
-public class Program
-{
-    public static void Main()
+[
     {
-        // Cria a lista de notícias
-        List<Noticia> noticias = new List<Noticia>
-        {
-            new Noticia
-            {
-                Titulo = "Atualização com o bot fazendo Labirinto 1F, 2F e 3F",
-                Link = "twitch.tv/xpgamefps"
-            }
-        };
-
-        // Serializa a lista de notícias para JSON
-        string json = JsonSerializer.Serialize(noticias, new JsonSerializerOptions { WriteIndented = true });
-
-        // Salva o JSON em um arquivo
-        string filePath = "noticias.json";
-        File.WriteAllText(filePath, json);
-
-        Console.WriteLine($"Arquivo JSON salvo em: {filePath}");
+        "Titulo": "Atualização com o bot fazendo Labirinto 1F, 2F e 3F",
+        "Link": "twitch.tv/xpgamefps"
     }
-}
+]
