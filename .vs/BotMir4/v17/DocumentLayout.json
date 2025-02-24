@@ -7,24 +7,36 @@
       "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|C:\\bossmir4\\settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|c:\\bossmir4\\settingsform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:settingsform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|C:\\bossmir4\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|c:\\bossmir4\\settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|c:\\bossmir4\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|c:\\bossmir4\\settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|C:\\bossmir4\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|C:\\bossmir4\\settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|c:\\bossmir4\\labirintomap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:labirintomap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|c:\\bossmir4\\mapmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:mapmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|c:\\bossmir4\\mapbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B5C7FDBB-CAB7-41D7-87F3-4F36971A6B74}|BotMir4.csproj|solutionrelative:mapbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,11 +46,99 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MainForm.cs [Design]",
+              "DocumentMoniker": "C:\\bossmir4\\MainForm.cs",
+              "RelativeDocumentMoniker": "MainForm.cs",
+              "ToolTip": "C:\\bossmir4\\MainForm.cs [Design]",
+              "RelativeToolTip": "MainForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T19:36:31.413Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainForm.Designer.cs",
+              "DocumentMoniker": "C:\\bossmir4\\MainForm.Designer.cs",
+              "RelativeDocumentMoniker": "MainForm.Designer.cs",
+              "ToolTip": "C:\\bossmir4\\MainForm.Designer.cs",
+              "RelativeToolTip": "MainForm.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIEAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T12:09:47.324Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SettingsForm.cs",
+              "DocumentMoniker": "C:\\bossmir4\\SettingsForm.cs",
+              "RelativeDocumentMoniker": "SettingsForm.cs",
+              "ToolTip": "C:\\bossmir4\\SettingsForm.cs",
+              "RelativeToolTip": "SettingsForm.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAASwEcAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T12:08:25.021Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SettingsForm.Designer.cs",
+              "DocumentMoniker": "C:\\bossmir4\\SettingsForm.Designer.cs",
+              "RelativeDocumentMoniker": "SettingsForm.Designer.cs",
+              "ToolTip": "C:\\bossmir4\\SettingsForm.Designer.cs",
+              "RelativeToolTip": "SettingsForm.Designer.cs",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAEYAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-09T15:49:56.195Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SettingsForm.cs [Projeto]",
+              "DocumentMoniker": "C:\\bossmir4\\SettingsForm.cs",
+              "RelativeDocumentMoniker": "SettingsForm.cs",
+              "ToolTip": "C:\\bossmir4\\SettingsForm.cs [Projeto]",
+              "RelativeToolTip": "SettingsForm.cs [Projeto]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-09T15:49:51.259Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MapBase.cs",
+              "DocumentMoniker": "C:\\bossmir4\\MapBase.cs",
+              "RelativeDocumentMoniker": "MapBase.cs",
+              "ToolTip": "C:\\bossmir4\\MapBase.cs",
+              "RelativeToolTip": "MapBase.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-31T10:38:43.476Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "LabirintoMap.cs",
+              "DocumentMoniker": "C:\\bossmir4\\LabirintoMap.cs",
+              "RelativeDocumentMoniker": "LabirintoMap.cs",
+              "ToolTip": "C:\\bossmir4\\LabirintoMap.cs",
+              "RelativeToolTip": "LabirintoMap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-31T10:37:44.458Z"
             },
             {
               "$type": "Document",
@@ -48,71 +148,22 @@
               "RelativeDocumentMoniker": "MainForm.cs",
               "ToolTip": "C:\\bossmir4\\MainForm.cs",
               "RelativeToolTip": "MainForm.cs",
-              "ViewState": "AgIAAEsBAAAAAAAAAAAAAHMBAABKAAAAAAAAAA==",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAAAIUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-06T06:08:27.125Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MainForm.Designer.cs",
-              "DocumentMoniker": "C:\\bossmir4\\MainForm.Designer.cs",
-              "RelativeDocumentMoniker": "MainForm.Designer.cs",
-              "ToolTip": "C:\\bossmir4\\MainForm.Designer.cs",
-              "RelativeToolTip": "MainForm.Designer.cs",
-              "ViewState": "AgIAADcAAAAAAAAAAAAkwFAAAAAzAAAAAAAAAA==",
+              "DocumentIndex": 7,
+              "Title": "MapManager.cs",
+              "DocumentMoniker": "C:\\bossmir4\\MapManager.cs",
+              "RelativeDocumentMoniker": "MapManager.cs",
+              "ToolTip": "C:\\bossmir4\\MapManager.cs",
+              "RelativeToolTip": "MapManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T06:08:22.439Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MainForm.cs [Projeto]",
-              "DocumentMoniker": "C:\\bossmir4\\MainForm.cs",
-              "RelativeDocumentMoniker": "MainForm.cs",
-              "ToolTip": "C:\\bossmir4\\MainForm.cs [Projeto]",
-              "RelativeToolTip": "MainForm.cs [Projeto]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T06:08:19.048Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "SettingsForm.Designer.cs",
-              "DocumentMoniker": "C:\\bossmir4\\SettingsForm.Designer.cs",
-              "RelativeDocumentMoniker": "SettingsForm.Designer.cs",
-              "ToolTip": "C:\\bossmir4\\SettingsForm.Designer.cs",
-              "RelativeToolTip": "SettingsForm.Designer.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAmwGIAAABNAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-04T17:06:55.078Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "SettingsForm.cs",
-              "DocumentMoniker": "C:\\bossmir4\\SettingsForm.cs",
-              "RelativeDocumentMoniker": "SettingsForm.cs",
-              "ToolTip": "C:\\bossmir4\\SettingsForm.cs",
-              "RelativeToolTip": "SettingsForm.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-04T17:06:13.423Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SettingsForm.cs [Projeto]",
-              "DocumentMoniker": "C:\\bossmir4\\SettingsForm.cs",
-              "RelativeDocumentMoniker": "SettingsForm.cs",
-              "ToolTip": "C:\\bossmir4\\SettingsForm.cs [Projeto]",
-              "RelativeToolTip": "SettingsForm.cs [Projeto]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-04T17:06:05.663Z",
-              "EditorCaption": " [Projeto]"
+              "WhenOpened": "2025-02-01T18:43:48.633Z"
             }
           ]
         }

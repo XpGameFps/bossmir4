@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 using System.Diagnostics;
@@ -11,19 +12,30 @@ namespace Mir4Bot
     {
         private CancellationTokenSource cancellationTokenSource;
         private string selectedWindow;
-        private readonly (int x, int y)[] bossCoordinates = new (int x, int y)[]
-        {
-            (1579, 498), (1597, 574), (1606, 650), (1603, 726), (1617, 785)
-        };
-        private readonly (int x, int y) teleportCoordinate = (1548, 971);
+        private LabirintoMap labirintoMap;
         private Random random = new Random();
         private bool isBPressed = false;
-        //
-        // delays padrão
-        //
-        private int delayMilliseconds = 1000; // Delay padrão de 1 segundo
+        private string subMapaAtual = "1F";
+        private int bossIndex = 1;
+        private bool noticiasCarregadas = false;
 
-        //
+        // Delays padrão
+        private int minDelayMilliseconds = 2000; // 2 segundos por padrão
+        private int maxDelayMilliseconds = 4000; // 4 segundos por padrão
+        private int postBossDelayMilliseconds = 1000; // 1 segundo por padrão
+        private int teleportMinDelayMilliseconds = 100; // 0,1 segundos por padrão
+        private int teleportMaxDelayMilliseconds = 300; // 0,3 segundos por padrão
+        private int postTeleportDelayMilliseconds = 5000; // 5 segundos por padrão
+
+        // Delays personalizáveis (em milissegundos)
+        private int delayAfterSubMapaClick = 1000; // Delay após clicar no submapa
+        private int delayAfterBoss1Click = 1000;   // Delay após clicar no Boss 1
+        private int delayAfterTeleportClick = 1000; // Delay após clicar no teletransporte
+        private int delayMapLoad = 8000;           // Delay de 8 segundos para o mapa carregar
+
+        // Novo delay: tempo de espera após pressionar 'B'
+        private int tempoEsperaAposB = 5000; // 5 segundos (ajuste conforme necessário)
+
         [DllImport("user32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
 
@@ -40,13 +52,76 @@ namespace Mir4Bot
         public MainForm()
         {
             InitializeComponent();
-            // Define o ícone da janela (barra de título)
             this.Icon = new Icon("C:\\bossmir4\\img\\icon.ico");
             PopulateWindowList();
+            PopulateMapList();
             this.FormClosing += MainForm_FormClosing;
+            this.Load += MainForm_Load; // Adiciona o evento Load
+        }
+        private async void MainForm_Load(object sender, EventArgs e)
+        {
+            if (noticiasCarregadas)
+                return; // Impede chamadas duplicadas
 
+            noticiasCarregadas = true;
+
+            try
+            {
+                // Limpa o RichTextBox antes de adicionar novas notícias
+                txtNoticias.Clear();
+
+                string urlNoticias = "https://raw.githubusercontent.com/XpGameFps/bossmir4/main/noticias.json";
+                NoticiasService noticiasService = new NoticiasService();
+
+                // Busca as notícias
+                List<Noticia> noticias = await noticiasService.BuscarNoticiasAsync(urlNoticias);
+
+                // Exibe as notícias no RichTextBox
+                if (noticias != null && noticias.Count > 0)
+                {
+                    foreach (var noticia in noticias)
+                    {
+                        txtNoticias.AppendText($"Notícia: {noticia.Titulo}\r\n");
+                    }
+                }
+                else
+                {
+                    txtNoticias.AppendText("Nenhuma notícia encontrada.\r\n");
+                }
+
+                // Ajusta o tamanho do RichTextBox para caber o texto
+                AjustarTamanhoTxtNoticias();
+            }
+            catch (Exception ex)
+            {
+                // Exibe o erro no RichTextBox
+                txtNoticias.AppendText($"Erro ao carregar notícias: {ex.Message}\r\n");
+            }
         }
 
+        // Método para formatar a data (opcional)
+        private string FormatarData(string data)
+        {
+            if (DateTime.TryParse(data, out DateTime dataFormatada))
+            {
+                return dataFormatada.ToString("dd/MM/yyyy"); // Formata a data como "dd/MM/yyyy"
+            }
+            return data; // Retorna a data original se não for possível formatar
+        }
+
+        private void AjustarTamanhoTxtNoticias()
+        {
+            // Ajusta a altura do RichTextBox para caber o texto
+            int numLines = txtNoticias.GetLineFromCharIndex(txtNoticias.TextLength) + 1;
+            int border = txtNoticias.Height - txtNoticias.ClientSize.Height;
+            int newHeight = txtNoticias.Font.Height * numLines + border + 5; // Adiciona 5 pixels de margem
+            txtNoticias.Height = newHeight;
+        }
+
+        private void txtNoticias_TextChanged(object sender, EventArgs e)
+        {
+            AjustarTamanhoTxtNoticias();
+        }
 
         private void PopulateWindowList()
         {
@@ -57,137 +132,296 @@ namespace Mir4Bot
             selectedWindow = windowComboBox.SelectedItem.ToString();
         }
 
+        private void PopulateMapList()
+        {
+            mapComboBox.Items.Add("Labirinto");
+            mapComboBox.Items.Add("Outro Mapa");
+            mapComboBox.SelectedIndex = 0;
+            LoadMap();
+        }
         private void windowComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedWindow = windowComboBox.SelectedItem.ToString();
             Log($"Janela selecionada: {selectedWindow}");
         }
 
-        private void startButton_Click(object sender, EventArgs e)
-        {
-            if (cancellationTokenSource == null) // Só inicia se não estiver em execução
-            {
-                // Tenta trazer a janela para frente
-                if (!BringGameWindowToFront())
-                {
-                    Log("Janela do jogo não encontrada!");
-                    return;
-                }
 
-                cancellationTokenSource = new CancellationTokenSource();
-                isBPressed = false; // Resetando isBPressed para garantir que a tecla 'B' será pressionada novamente
-                Task.Run(() => BotLoop(cancellationTokenSource.Token));
-                Log("Script iniciado!");
-            }
-            else
+        private void LoadMap()
+        {
+            switch (mapComboBox.SelectedItem.ToString())
             {
-                Log("O script já está em execução.");
+                case "Labirinto":
+                    labirintoMap = new LabirintoMap();
+                    break;
             }
         }
 
-        private void stopButton_Click(object sender, EventArgs e)
+        private void mapComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cancellationTokenSource?.Cancel();
-            cancellationTokenSource = null; // Redefinir para null após parar o script
-            Log("Script parado!");
+            LoadMap();
         }
 
         private async Task BotLoop(CancellationToken token)
         {
+            // Verifica e traz a janela do jogo para frente
             if (!BringGameWindowToFront())
             {
-                Log("Janela do jogo n�o encontrada!");
+                Log("Janela do jogo não encontrada!");
                 return;
             }
 
-            if (!isBPressed)
-            {
-                PressionarTecla("B");
-                Log("Tecla 'B' pressionada para iniciar o combate.");
-                isBPressed = true;
-            }
-
-            await Task.Delay(100, token); // 100ms de espera
-
-            int bossIndex = 0;
-
             while (!token.IsCancellationRequested)
             {
-                await EsperaAleatoria(minDelayMilliseconds, maxDelayMilliseconds);
+                var subMapa = labirintoMap.SubMapas[subMapaAtual];
 
-                if (token.IsCancellationRequested) break;
+                // Lógica para matar os bosses do submapa atual
+                for (bossIndex = 1; bossIndex < subMapa.BossCoordinates.Count; bossIndex++) // Inicia no Boss 2
+                {
+                    if (token.IsCancellationRequested) break;
 
-                SimularMovimentoAleatorio(token); // Movimentos aleat�rios antes de apertar F10
-                await Task.Delay(2000, token); // Pequena pausa ap�s o movimento
+                    // 1. Pressiona 'B' para iniciar o combate (APENAS UMA VEZ)
+                    if (!isBPressed)
+                    {
+                        PressionarTecla("B");
+                        Log("Tecla 'B' pressionada para iniciar o combate.");
+                        isBPressed = true;
+                    }
 
-                ClicarTecla("F10");
-                Log("Tecla 'F10' clicada para abrir a interface de combate.");
+                    // 2. Espera o tempo para matar o boss
+                    Log($"Aguardando {tempoEsperaAposB / 1000} segundos para matar o boss...");
+                    await Task.Delay(tempoEsperaAposB, token);
 
-                // Coordenada aleat�ria para o boss
-                var bossCoordinate = GetRandomizedCoordinateForBoss(bossCoordinates[bossIndex].x, bossCoordinates[bossIndex].y);
-                MoveMouse(bossCoordinate.x, bossCoordinate.y);
-                await Task.Delay(500, token); // Aguarda 500ms antes de clicar
-                ClickMouse(); // Clique com o bot�o esquerdo do mouse
-                Log($"Clicou no Boss {bossIndex + 1} na coordenada aleat�ria ({bossCoordinate.x}, {bossCoordinate.y}).");
+                    // 3. Movimento aleatório com teclas W, A, S, D
+                    SimularMovimentoAleatorio(token);
 
-                if (token.IsCancellationRequested) break;
+                    // 4. Espera aleatória entre 3 e 6 segundos antes de abrir o mapa
+                    int delay = random.Next(minDelayMilliseconds, maxDelayMilliseconds);
+                    Log($"Aguardando {delay / 1000} segundos antes de abrir o mapa...");
+                    await Task.Delay(delay, token);
 
-                await Task.Delay(postBossDelayMilliseconds, token); // Usa o delay configurado após clicar no boss
+                    // 5. Aperta "F10" para abrir a interface de combate
+                    ClicarTecla("F10");
+                    await Task.Delay(500, token);
 
-                // Atraso aleat�rio entre 3 a 5 segundos antes de clicar na coordenada de teletransporte
-                await EsperaAleatoria(teleportMinDelayMilliseconds, teleportMaxDelayMilliseconds); // Usa o delay configurado antes do teletransporte
+                    // 6. Clica no boss atual com randomização
+                    var bossCoordinate = GetRandomizedCoordinateForBoss(
+                        subMapa.BossCoordinates[bossIndex].x,
+                        subMapa.BossCoordinates[bossIndex].y
+                    );
+                    MoveMouse(bossCoordinate.x, bossCoordinate.y);
+                    await Task.Delay(500, token);
+                    ClickMouse();
+                    Log($"Clicou no Boss {bossIndex + 1} do {subMapaAtual}.");
 
-                // Coordenada aleat�ria para o teletransporte
-                var teleportCoord = GetRandomizedCoordinateForTeleport(teleportCoordinate.x, teleportCoordinate.y);
-                MoveMouse(teleportCoord.x, teleportCoord.y); // Movendo o mouse para as coordenadas de teletransporte aleat�rias
-                await Task.Delay(500, token); // Aguarda 500ms antes de clicar
-                ClickMouse(); // Clique com o bot�o esquerdo do mouse
-                Log("Clicou na coordenada de teleport.");
+                    // 7. Espera após atacar o boss
+                    Log($"Aguardando {postBossDelayMilliseconds / 1000} segundos após atacar o boss...");
+                    await Task.Delay(postBossDelayMilliseconds, token);
 
-                if (token.IsCancellationRequested) break;
+                    // 8. Clica no teleporte com randomização
+                    var teleportCoord = GetRandomizedCoordinateForTeleport(
+                        subMapa.TeleportCoordinate.x,
+                        subMapa.TeleportCoordinate.y
+                    );
+                    MoveMouse(teleportCoord.x, teleportCoord.y);
+                    await Task.Delay(500, token);
+                    ClickMouse();
+                    Log("Teleportou para próximo boss.");
 
-                await Task.Delay(postTeleportDelayMilliseconds, token); // Usa o delay configurado após o teletransporte
+                    // 9. Espera o delay pós-teleporte
+                    Log($"Aguardando {postTeleportDelayMilliseconds / 1000} segundos após o teletransporte...");
+                    await Task.Delay(postTeleportDelayMilliseconds, token);
 
-                PressionarTecla("B"); // Pressionar a tecla 'B' ap�s o combate
-                bossIndex = (bossIndex + 1) % bossCoordinates.Length;
+                    // Redefine isBPressed para garantir que a tecla 'B' seja pressionada novamente para o próximo boss
+                    isBPressed = false;
+
+                    // 10. Pressiona 'B' para iniciar o combate após o teletransporte
+                    if (!isBPressed)
+                    {
+                        PressionarTecla("B");
+                        Log("Tecla 'B' pressionada para iniciar o combate.");
+                        isBPressed = true;
+                    }
+
+                    // 11. Espera o tempo para matar o boss após o teletransporte
+                    Log($"Aguardando {tempoEsperaAposB / 1000} segundos para matar o boss...");
+                    await Task.Delay(tempoEsperaAposB, token);
+
+                    // 12. Verifica se é o último boss do submapa atual
+                    if (bossIndex == subMapa.BossCoordinates.Count - 1)
+                    {
+                        // 13. Troca de submapa após o último boss
+                        AvancarSubMapa();
+
+                        // 14. Abre o mapa pressionando F10
+                        ClicarTecla("F10");
+                        await Task.Delay(500, token);
+
+                        // 15. Clica na coordenada do novo submapa
+                        var subMapaCoord = labirintoMap.SubMapas[subMapaAtual].SubMapaCoordinate;
+                        MoveMouse(subMapaCoord.x, subMapaCoord.y);
+                        await Task.Delay(500, token);
+                        ClickMouse();
+                        Log($"Clicou no submapa {subMapaAtual}.");
+
+                        // 16. Delay após clicar no submapa
+                        Log($"Aguardando {delayAfterSubMapaClick / 1000} segundos após clicar no submapa...");
+                        await Task.Delay(delayAfterSubMapaClick, token);
+
+                        // 17. Vai até o Boss 1 do novo submapa
+                        var boss1Coord = labirintoMap.SubMapas[subMapaAtual].BossCoordinates[0];
+                        MoveMouse(boss1Coord.x, boss1Coord.y);
+                        await Task.Delay(500, token);
+                        ClickMouse();
+                        Log($"Clicou no Boss 1 do {subMapaAtual}.");
+
+                        // 18. Delay após clicar no Boss 1
+                        Log($"Aguardando {delayAfterBoss1Click / 1000} segundos após clicar no Boss 1...");
+                        await Task.Delay(delayAfterBoss1Click, token);
+
+                        // 19. Clica no teleporte do novo submapa
+                        var teleportCoordNewMap = labirintoMap.SubMapas[subMapaAtual].TeleportCoordinate;
+                        MoveMouse(teleportCoordNewMap.x, teleportCoordNewMap.y);
+                        await Task.Delay(500, token);
+                        ClickMouse();
+                        Log("Teleportou para próximo boss.");
+
+                        // 20. Delay após clicar no teletransporte
+                        Log($"Aguardando {delayAfterTeleportClick / 1000} segundos após clicar no teletransporte...");
+                        await Task.Delay(delayAfterTeleportClick, token);
+
+                        // 21. Delay de 8 segundos para o mapa carregar
+                        Log($"Aguardando {delayMapLoad / 1000} segundos para o mapa carregar...");
+                        await Task.Delay(delayMapLoad, token);
+                        Log("Mapa carregado. Iniciando combate...");
+
+                        // 22. Pressiona 'B' para iniciar o combate no novo submapa (APENAS UMA VEZ)
+                        PressionarTecla("B");
+                        Log("Tecla 'B' pressionada para iniciar o combate.");
+                        isBPressed = true;
+
+                        // 23. Espera o tempo para matar o boss
+                        Log($"Aguardando {tempoEsperaAposB / 1000} segundos para matar o boss...");
+                        await Task.Delay(tempoEsperaAposB, token);
+
+                        // 24. Reinicia o índice dos bosses
+                        bossIndex = -1;
+                        break;
+                    }
+                }
             }
         }
+
+        // Adicionar este método para substituir o IsGameWindowVisible
+        private bool IsGameWindowVisible()
+        {
+            foreach (Process proc in Process.GetProcesses())
+            {
+                if (proc.MainWindowTitle.Equals(selectedWindow))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         private void SimularMovimentoAleatorio(CancellationToken token)
         {
             string[] teclasMovimento = { "W", "A", "S", "D" };
-            int movimentos = random.Next(1, 4);
+            // Garantir que pelo menos duas teclas sejam pressionadas
+            List<string> teclasSelecionadas = new List<string>();
 
-            for (int i = 0; i < movimentos; i++)
+            // Selecionar pelo menos duas teclas diferentes
+            while (teclasSelecionadas.Count < 2)
             {
-                if (token.IsCancellationRequested) return; // Verifica se a execução foi cancelada
-
                 string tecla = teclasMovimento[random.Next(teclasMovimento.Length)];
-                PressionarTecla(tecla, true);
+                if (!teclasSelecionadas.Contains(tecla))
+                {
+                    teclasSelecionadas.Add(tecla);
+                }
+            }
 
-                int delay = random.Next(500, 1500);
+            // Agora, pressionar as teclas selecionadas aleatoriamente
+            foreach (var tecla in teclasSelecionadas)
+            {
+                if (token.IsCancellationRequested) return;
+
+                PressionarTecla(tecla, true); // Pressiona a tecla
+
+                int delay = random.Next(500, 1500); // Delay aleatório entre 500ms e 1500ms
                 int elapsed = 0;
 
-                // Aguarda o tempo configurado para manter a tecla pressionada,
-                // verificando constantemente se o token foi cancelado
+                // Mantém pressionada por um tempo aleatório
                 while (elapsed < delay)
                 {
                     if (token.IsCancellationRequested)
                     {
-                        keybd_event(GetVirtualKey(tecla), 0, KEYEVENTF_KEYUP, UIntPtr.Zero); // Solta a tecla se cancelado
+                        keybd_event(GetVirtualKey(tecla), 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
                         Log($"Tecla '{tecla.ToUpper()}' solta devido ao cancelamento.");
                         return;
                     }
 
-                    Thread.Sleep(100); // Intervalos curtos para verificar o token
+                    Thread.Sleep(100);
                     elapsed += 100;
                 }
 
+                // Solta a tecla após o delay
                 keybd_event(GetVirtualKey(tecla), 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
                 Log($"Tecla '{tecla.ToUpper()}' solta.");
             }
         }
 
+
+        private void AvancarSubMapa()
+        {
+            switch (subMapaAtual)
+            {
+                case "1F":
+                    subMapaAtual = "2F"; // Após o 1F, vai para o 2F
+                    break;
+                case "2F":
+                    subMapaAtual = "3F"; // Após o 2F, vai para o 3F
+                    break;
+                case "3F":
+                    subMapaAtual = "1F"; // Após o 3F, volta para o 1F
+                    break;
+            }
+            Log($"Submapa alterado para: {subMapaAtual}");
+        }
+
+        private void ClickSubMapa((int x, int y) coordinate)
+        {
+            int offsetX = random.Next(-10, 10);
+            int offsetY = random.Next(-10, 10);
+            int newX = coordinate.x + offsetX;
+            int newY = coordinate.y + offsetY;
+
+            MoveMouse(newX, newY);
+            ClickMouse();
+            Log($"Clicou no submapa: {subMapaAtual} (X: {newX}, Y: {newY})");
+        }
+
+        private (int x, int y) GetRandomizedCoordinateForBoss(int x, int y)
+        {
+            int offsetX = random.Next(-160, 195); // Para bosses
+            int offsetY = random.Next(-18, 18); // Para bosses
+            int screenWidth = Screen.PrimaryScreen.Bounds.Width;
+            int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+            int newX = (int)(x + offsetX * (float)screenWidth / 1920);
+            int newY = (int)(y + offsetY * (float)screenHeight / 1080);
+            return (newX, newY);
+        }
+
+        private (int x, int y) GetRandomizedCoordinateForTeleport(int x, int y)
+        {
+            int offsetX = random.Next(-105, 105); // Para teletransporte
+            int offsetY = random.Next(-20, 20); // Para teletransporte
+            int screenWidth = Screen.PrimaryScreen.Bounds.Width;
+            int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+            int newX = (int)(x + offsetX * (float)screenWidth / 1920);
+            int newY = (int)(y + offsetY * (float)screenHeight / 1080);
+            return (newX, newY);
+        }
 
         private void PressionarTecla(string tecla, bool manterPressionada = false)
         {
@@ -213,7 +447,7 @@ namespace Mir4Bot
             }
             else
             {
-                Log($"Tecla '{tecla}' n�o reconhecida.");
+                Log($"Tecla '{tecla}' não reconhecida.");
             }
         }
 
@@ -229,7 +463,7 @@ namespace Mir4Bot
             }
             else
             {
-                Log($"Tecla '{tecla}' n�o reconhecida.");
+                Log($"Tecla '{tecla}' não reconhecida.");
             }
         }
 
@@ -269,42 +503,10 @@ namespace Mir4Bot
 
         private void ClickMouse()
         {
-            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, UIntPtr.Zero); // Pressiona o bot�o esquerdo do mouse
-            Thread.Sleep(random.Next(100, 150)); // Aguarda um pequeno intervalo
-            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, UIntPtr.Zero); // Solta o bot�o esquerdo do mouse
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, UIntPtr.Zero);
+            Thread.Sleep(random.Next(100, 150));
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, UIntPtr.Zero);
             Log("Clique do mouse realizado.");
-        }
-
-        private (int x, int y) GetRandomizedCoordinateForBoss(int x, int y)
-        {
-            // Ajusta para a resolu��o da tela
-            int screenWidth = Screen.PrimaryScreen.Bounds.Width;
-            int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-
-            int offsetX = random.Next(-160, 195); // Para bosses
-            int offsetY = random.Next(-18, 18); // Para bosses
-
-            // Ajusta a coordenada baseada na resolu��o da tela
-            int scaledX = (int)(x + offsetX * (float)screenWidth / 1920);
-            int scaledY = (int)(y + offsetY * (float)screenHeight / 1080);
-
-            return (scaledX, scaledY);
-        }
-
-        private (int x, int y) GetRandomizedCoordinateForTeleport(int x, int y)
-        {
-            // Ajusta para a resolu��o da tela
-            int screenWidth = Screen.PrimaryScreen.Bounds.Width;
-            int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-
-            int offsetX = random.Next(-105, 105); // Para teletransporte
-            int offsetY = random.Next(-20, 20); // Para teletransporte
-
-            // Ajusta a coordenada baseada na resolu��o da tela
-            int scaledX = (int)(x + offsetX * (float)screenWidth / 1920);
-            int scaledY = (int)(y + offsetY * (float)screenHeight / 1080);
-
-            return (scaledX, scaledY);
         }
 
         private async Task EsperaAleatoria(int min, int max)
@@ -322,7 +524,7 @@ namespace Mir4Bot
             else
             {
                 logTextBox.AppendText($"{DateTime.Now:dd/MM/yyyy HH:mm:ss}: {message}{Environment.NewLine}");
-                logTextBox.SelectionStart = logTextBox.Text.Length; // Rola para o final
+                logTextBox.SelectionStart = logTextBox.Text.Length;
                 logTextBox.ScrollToCaret();
             }
         }
@@ -332,51 +534,62 @@ namespace Mir4Bot
             cancellationTokenSource?.Cancel();
         }
 
-        private void mapComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
-        }
-        //
-        //Inicio da configuração
-        //
         private void settingsButton_Click(object sender, EventArgs e)
         {
             SettingsForm settingsForm = new SettingsForm();
-            settingsForm.MinDelayMilliseconds = minDelayMilliseconds;
-            settingsForm.MaxDelayMilliseconds = maxDelayMilliseconds;
-            settingsForm.PostBossDelayMilliseconds = postBossDelayMilliseconds;
-            settingsForm.TeleportMinDelayMilliseconds = teleportMinDelayMilliseconds;
-            settingsForm.TeleportMaxDelayMilliseconds = teleportMaxDelayMilliseconds;
-            settingsForm.PostTeleportDelayMilliseconds = postTeleportDelayMilliseconds;
+            settingsForm.PostBossDelaySeconds = postBossDelayMilliseconds / 1000;
+            settingsForm.PostTeleportDelaySeconds = postTeleportDelayMilliseconds / 1000;
+            settingsForm.TempoEsperaAposBSeconds = tempoEsperaAposB / 1000;
+            settingsForm.DelayMapLoad = delayMapLoad / 1000;
+
             if (settingsForm.ShowDialog() == DialogResult.OK)
             {
-                minDelayMilliseconds = settingsForm.MinDelayMilliseconds;
-                maxDelayMilliseconds = settingsForm.MaxDelayMilliseconds;
-                postBossDelayMilliseconds = settingsForm.PostBossDelayMilliseconds;
-                teleportMinDelayMilliseconds = settingsForm.TeleportMinDelayMilliseconds;
-                teleportMaxDelayMilliseconds = settingsForm.TeleportMaxDelayMilliseconds;
-                postTeleportDelayMilliseconds = settingsForm.PostTeleportDelayMilliseconds;
+                postBossDelayMilliseconds = settingsForm.PostBossDelaySeconds * 1000;
+                postTeleportDelayMilliseconds = settingsForm.PostTeleportDelaySeconds * 1000;
+                tempoEsperaAposB = settingsForm.TempoEsperaAposBSeconds * 1000;
+                delayMapLoad = settingsForm.DelayMapLoad * 1000;
             }
         }
 
-        // tempo que o bot vai fica atacando antes abre o mapa
-        private int minDelayMilliseconds = 3000; // Default 3 seconds
-        private int maxDelayMilliseconds = 6000; // Default 6 seconds
 
-        // tempo em conjunto pra evita identificação ao click no boss list 
-        private int postBossDelayMilliseconds = 1000; // Default 1 seconds
 
-        // tempo pra click nos boss na lista e click em teleporte
-        private int teleportMinDelayMilliseconds = 100; // Default 0,1 seconds
-        private int teleportMaxDelayMilliseconds = 300; // Default 0,3 seconds
+        private void startButton_Click(object sender, EventArgs e)
+        {
+            if (cancellationTokenSource == null)
+            {
+                if (!BringGameWindowToFront())
+                {
+                    Log("Janela do jogo não encontrada!");
+                    return;
+                }
 
-        // tempo de espera para aperta letra B depois de teletransporta  
-        private int postTeleportDelayMilliseconds = 5000; // Default 5 seconds
+                cancellationTokenSource = new CancellationTokenSource();
+                isBPressed = false;
 
+                // Converta os valores de segundos para milissegundos
+                int minDelayMilliseconds = this.minDelayMilliseconds;
+                int maxDelayMilliseconds = this.maxDelayMilliseconds;
+                int postBossDelayMilliseconds = this.postBossDelayMilliseconds;
+                int teleportMinDelayMilliseconds = this.teleportMinDelayMilliseconds;
+                int teleportMaxDelayMilliseconds = this.teleportMaxDelayMilliseconds;
+                int postTeleportDelayMilliseconds = this.postTeleportDelayMilliseconds;
+                int delayMapLoadMilliseconds = this.delayMapLoad;
+
+                // Inicia o bot sem pressionar a tecla 'B' aqui
+                Task.Run(() => BotLoop(cancellationTokenSource.Token));
+                Log("Script iniciado!");
+            }
+            else
+            {
+                Log("O script já está em execução.");
+            }
+        }
+
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            cancellationTokenSource?.Cancel();
+            cancellationTokenSource = null;
+            Log("Script interrompido.");
+        }
     }
 }
