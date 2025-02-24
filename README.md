@@ -46,4 +46,4 @@
   - **Intervalos aleatórios** entre ataques, cliques e teletransportes.  
   - **Movimentos aleatórios** durante a execução para tornar o comportamento do bot menos previsível.  
 
-💡 Essas melhorias tornam o **Mir4Bot** mais eficiente, discreto e configurável para diferentes estilos de jogo. 🚀
+💡 Essas melhorias tornam o **Mir4Bot** mais eficiente, discreto e configurável. 🚀
